@@ -8,7 +8,7 @@ using TheBugTracker.Data;
 
 #nullable disable
 
-namespace TheBugTracker.Data.Migrations
+namespace TheBugTracker.Data.Migration
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

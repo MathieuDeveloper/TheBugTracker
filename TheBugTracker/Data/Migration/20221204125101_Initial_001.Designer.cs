@@ -9,10 +9,10 @@ using TheBugTracker.Data;
 
 #nullable disable
 
-namespace TheBugTracker.Data.Migrations
+namespace TheBugTracker.Data.Migration
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221204095834_Initial_001")]
+    [Migration("20221204125101_Initial_001")]
     partial class Initial_001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
