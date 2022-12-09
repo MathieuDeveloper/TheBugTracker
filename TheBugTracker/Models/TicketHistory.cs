@@ -13,7 +13,7 @@ namespace TheBugTracker.Models
         public int TicketId { get; set; }
 
         
-        [DisplayName("Updated Itemicket")]
+        [DisplayName("Updated Item")]
         public string Property { get; set; }
 
         
