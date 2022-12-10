@@ -1,0 +1,71 @@
+﻿using Microsoft.Build.Evaluation;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace TheBugTracker.Models
+{
+    public class Ticket
+    {
+        //Primary Key
+        public int Id { get; set; }
+
+
+        [Required]
+        [StringLength(50)]
+        [DisplayName("Title")]
+        public string Title { get; set; }
+
+
+        [Required]
+        [DisplayName("Description")]
+        public string Description { get; set; }
+
+
+        [DataType(DataType.Date)]
+        [DisplayName("Created")]
+        public DateTimeOffset Created { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayName("Updated")]
+        public DateTimeOffset? Updated { get; set; }
+
+        [DisplayName("Archived")]
+        public bool Archived { get; set; }
+
+        //Foreign Key
+        [DisplayName("Project")]
+        public int ProjectId { get; set; }
+
+        //Foreign Key
+        [DisplayName("Ticket Type")]
+        public int TicketTypeId { get; set; }
+
+        //Foreign Key
+        [DisplayName("Ticket Priority")]
+        public int TicketPriorityId { get; set; }
+
+        //Foreign Key
+        [DisplayName("Ticket Status")]
+        public int TicketStatusId { get; set; }
+
+        //Foreign Key, BTUser IdentityUser donc string (very secure)
+        [DisplayName("Ticket Owner")]
+        public string OwnerUserId { get; set; }
+
+        //Foreign Key, BTUser IdentityUser donc string (very secure)
+        [DisplayName("Ticket Developer")]
+        public string DeveloperUserId { get; set; }
+
+
+        //Navigation properties
+
+        public virtual Project Project { get; set; }
+        public virtual TicketType TicketType { get; set; }
+        public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
+        public virtual BTUser OwnerUser { get; set; }
+        public virtual BTUser DeveloperUser { get; set; }
+
+
+    }
+}
