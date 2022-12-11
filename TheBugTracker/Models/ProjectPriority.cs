@@ -5,6 +5,7 @@ namespace TheBugTracker.Models
 {
     public class ProjectPriority
     {
+        //Primary key
         public int Id { get; set; }
 
         //CF :  [DisplayName("Priority Name")]
