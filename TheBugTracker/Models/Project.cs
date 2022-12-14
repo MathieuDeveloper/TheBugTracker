@@ -24,11 +24,11 @@ namespace TheBugTracker.Models
         public string Description { get; set; }
 
 
-        
+
         [DisplayName("Start")]
         public DateTimeOffset StartDate { get; set; }
 
-        
+
         [DisplayName("End")]
         public DateTimeOffset EndDate { get; set; }
 
@@ -56,8 +56,15 @@ namespace TheBugTracker.Models
 
         public virtual Company Company { get; set; }
         public virtual ProjectPriority ProjectPriority { get; set; }
-        public  virtual ICollection<BTUser> Members { get; set; } = new  HashSet<BTUser>();
+        //public virtual ICollection<BTUser> Members { get; set; } 
+        //public virtual ICollection<Ticket> Tickets { get; set; } 
+
+        //Mathieu:
+        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
         public virtual ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
+
+
+
 
     }
 }
