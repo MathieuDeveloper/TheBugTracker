@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace TheBugTracker.Models
 {
     public class Ticket
