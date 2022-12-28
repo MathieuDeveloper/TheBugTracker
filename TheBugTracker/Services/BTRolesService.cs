@@ -26,19 +26,23 @@ namespace TheBugTracker.Services
             return result;
         }
 
-        public Task<string> GetRoleNameByIdAsync(string roleId)
+        public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
-            throw new NotImplementedException();
+            IdentityRole role = _context.Roles.Find(roleId);
+            string result = await _roleManager.GetRoleNameAsync(role);
+            return result;
         }
 
-        public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
+        public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
-            throw new NotImplementedException();
+            IEnumerable<string> result = await _userManager.GetRolesAsync(user);
+            return result;
         }
 
-        public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            List<BTUser> users =  (await _userManager.GetUsersInRoleAsync(roleName)).ToList();
+            List<BTUser> result = users.
         }
 
         public Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
