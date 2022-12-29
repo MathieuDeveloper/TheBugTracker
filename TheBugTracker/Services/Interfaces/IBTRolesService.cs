@@ -13,8 +13,8 @@ namespace TheBugTracker.Services.Interfaces
         //remove user from a role
         public Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName);
 
-        //remove user from all roles
-        public Task<bool> RemoveUserFromRoleAsync(BTUser user, IEnumerable<string> roles);
+        //remove user from multiple roles
+        public Task<bool> RemoveUserFromRolesAsync(BTUser user, IEnumerable<string> roles);
 
         public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId);
 
