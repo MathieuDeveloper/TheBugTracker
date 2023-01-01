@@ -11,7 +11,7 @@ namespace TheBugTracker.Models
 
 
         [DisplayName("Company")]
-        public int? ConmpanyId { get; set; }
+        public int? CompanyId { get; set; }
 
         [Required]
         [StringLength(50)]
