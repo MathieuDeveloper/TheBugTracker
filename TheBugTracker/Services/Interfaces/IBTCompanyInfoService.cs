@@ -8,6 +8,6 @@ namespace TheBugTracker.Services.Interfaces
         public Task<List<BTUser>> GetAllMembersAsync(int companyId);
 
         public Task<List<Project>> GetAllProjectsAsync(int companyId);
-        public Task<List<Ticket>> GetAllTicketAsync(int companyId);
+        public Task<List<Ticket>> GetAllTicketsAsync(int companyId);
     }
 }
