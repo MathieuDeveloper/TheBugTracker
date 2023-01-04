@@ -1,4 +1,5 @@
-﻿using TheBugTracker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TheBugTracker.Data;
 using TheBugTracker.Models;
 using TheBugTracker.Services.Interfaces;
 
@@ -8,14 +9,16 @@ namespace TheBugTracker.Services
     {
         private readonly ApplicationDbContext _context;
 
+        // CRUD Create
         public BTProjectService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Task AddNewProjectAsync(Project project)
+        public async Task AddNewProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            _context.Add(project);
+            await _context.SaveChangesAsync();
         }
 
         public Task<bool> AddProjectManagerAsync(string userId, int projectId)
@@ -28,9 +31,12 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task ArchiveProjectAsync(Project project)
+        // CRUD Archive (Delete)
+        public async Task ArchiveProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            project.Archived = true;
+            _context.Update(project);
+            await _context.SaveChangesAsync();
         }
 
         public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
@@ -38,9 +44,35 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetAllProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            throw new NotImplementedException();
+            List<Project> projects = new();
+
+            projects = await _context.Projects.Where(p => p.CompanyId == companyId)
+                                            .Include(p => p.Members)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.Comments)
+
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.Attachments)
+
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.History)
+
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.DeveloperUser)
+
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketStatus)
+
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketPriority)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketPriority)
+                                            .Include(p => p.ProjectPriority)
+                                            .ToListAsync();
+            return projects; 
+
         }
 
         public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
@@ -48,7 +80,7 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
             throw new NotImplementedException();
         }
@@ -58,9 +90,16 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<Project> GetProjectByIdAsync(int projectId, int companyId)
+        // CRUD Read
+        public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            Project project = await _context.Projects
+                .Include(p => p.Tickets)
+                .Include(p => p.Members)
+                .Include(p => p.ProjectPriority)
+                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
+
+            return project;
         }
 
         public Task<BTUser> GetProjectManagerAsync(int projectId)
@@ -113,9 +152,11 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateProjectAsync(Project project)
+        // CRUD Update
+        public async Task UpdateProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            _context.Update(project);
+            await _context.SaveChangesAsync();
         }
     }
 }
