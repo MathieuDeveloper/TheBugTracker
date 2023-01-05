@@ -72,17 +72,20 @@ namespace TheBugTracker.Services
                                             .Include(p => p.ProjectPriority)
                                             .ToListAsync();
             return projects; 
-
         }
 
-        public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            List<Project> projects = await GetAllProjectsByCompany(companyId);
+            int priorityId = await LookupProjectPriorityId(priorityName);
+
+            return projects.Where(p => p.ProjectPriorityId == priorityId).ToList();
         }
 
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
-            throw new NotImplementedException();
+            List<Project> projects = await GetAllProjectsByCompany(companyId);
+            return projects.Where(p => p.Archived == true).ToList();
         }
 
         public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
@@ -132,9 +135,10 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> LookupProjectPriorityId(string priorityName)
+        public async Task<int> LookupProjectPriorityId(string priorityName)
         {
-            throw new NotImplementedException();
+            int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
+            return priorityId;
         }
 
         public Task RemoveProjectManagerAsync(int projectId)
